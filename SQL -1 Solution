@@ -125,7 +125,8 @@ select name as city_name from city where country_code='JPN';
 drop table city;
 
 Q-7- Query a list of CITY and STATE from the STATION table.
-A-7-create table station
+A-7-
+create table station
 (
     id int,
     city varchar(21),
@@ -482,7 +483,7 @@ INSERT INTO station VALUES (440,'Grand Terrace','CA',37,126);
 INSERT INTO station VALUES (110,'Mesick','MI',82,108);
 INSERT INTO station VALUES (396,'Dryden','MI',69,47);
 INSERT INTO station VALUES (637,'Beverly','KY',57,126);
-INSERT INTO station VALUES (566,'Marine On  Saint  Croix','MN',126,NULL);
+INSERT INTO station VALUES (566,'Marine On  Saint','MN',126,NULL);
 INSERT INTO station VALUES (801,'Pocahontas','IL',109,83);
 INSERT INTO station VALUES (739,'Fort Meade','FL',43,35);
 INSERT INTO station VALUES (130,'Hayneville','AL',109,157);
@@ -643,6 +644,50 @@ select distinct city as city_name from station where id%2=0;
 Q-9-Find the difference between the total number of CITY entries in the table and the number of
 distinct CITY entries in the table.
 A-9-
+select (count(city)-count(distinct city)) as differnce from station;
+
+Q-10-. Query the two cities in STATION with the shortest and longest CITY names, as well as their
+respective lengths (i.e.: number of characters in the name). If there is more than one smallest or
+largest city, choose the one that comes first when ordered alphabetically.
+A-10-
+select city from ((select city,char_length(city) as city_length from station order by char_length(city) desc limit 1) union
+(select city,char_length(city) as city_length from station order by char_length(city) limit 1))smallest_largest_city;
+
+Q-11-. Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result
+cannot contain duplicates.
+A-11-
+select distinct city from station where left(lower(city),1) in ('a','e','i','o','u');
+
+Q-12- Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot
+contain duplicates.
+A-12-
+select distinct city from station where right(lower(city),1) in ('a','e','i','o','u');
+
+Q-13-. Query the list of CITY names from STATION that do not start with vowels. Your result cannot
+contain duplicates.
+A-13-
+select distinct city from station where left(lower(city),1) not in ('a','e','i','o','u');
+
+Q-14-Query the list of CITY names from STATION that do not end with vowels. Your result cannot
+contain duplicates.
+A-14-
+select distinct city from station where right(lower(city),1) not in ('a','e','i','o','u');
+
+Q-15-Query the list of CITY names from STATION that either do not start with vowels or do not end
+with vowels. Your result cannot contain duplicates.
+A-15-
+select distinct city from station where left(lower(city),1) not in ('a','e','i','o','u') or right(lower(city),1) not in ('a','e','i','o','u');
+
+Q-16-Query the list of CITY names from STATION that do not start with vowels and do not end with
+vowels. Your result cannot contain duplicates.
+A-16-
+select distinct city from station where left(lower(city),1) not in ('a','e','i','o','u') and right(lower(city),1) not in ('a','e','i','o','u');
+
+Q-17-Write an SQL query that reports the products that were only sold in the first quarter of 2019. That is,
+between 2019-01-01 and 2019-03-31 inclusive.
+Return the result table in any order.
+A-17-
+
 
 
 
